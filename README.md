@@ -39,7 +39,7 @@ Dotnet CQRS Pattern
     ```
     - Delete Products
     ```http
-    DELET /api/ProductsCommand
+    DELETE /api/ProductsCommand
     ```
 
  - Queries
@@ -49,5 +49,9 @@ Dotnet CQRS Pattern
     ```
     - Get By Id
     ```http
-    GET /api/ProductsCommand/by-id/1
+    GET /api/ProductsCommand/by-id?id=1
+    ```
+     - Get By Unique Id
+    ```http
+    GET /api/ProductsCommand/by-uuid?uniqueId=237e9877-e79b-12d4-a765-321741963000
     ```
