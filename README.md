@@ -1,57 +1,72 @@
 # DotnetCQRS
 
-Dotnet CQRS Pattern
+A project implementing the CQRS pattern using .NET.
 
 ## Tools
-- ASP .NET Core
+- ASP.NET Core
 - C#
 - SQL Server 2019
 
 ## Problem
-- Products Management
+- Management of various entities such as products, suppliers, categories, and users.
 
 ## Features
 - Products Management
-- Supplilers Management
+- Suppliers Management
 - Categories Management
 - Users Management
 
+## How to Run
+1. Download or clone the repository:
+    ```sh
+    git clone https://github.com/ortizdavid/DotnetCQRS
+    ```
+2. Navigate to the project directory:
+    ```sh
+    cd DotnetCQRS
+    ```
+3. Copy the database scripts from the [_Database](_Database) folder to SQL Server.
+4. Update the **DefaultConnection** string in the [appsettings.json](appsettings.json) file with your SQL Server details.
+5. Import the Postman Collections from the [_Api_Collections](_Api_Collections) folder.
+6. Install the required packages:
+    ```sh
+    dotnet restore
+    ```
+7. Run the application:
+    ```sh
+    dotnet run
+    ```
 
-## How to run
-- Download or clone repository: `git clone https://github.com/ortizdavid/BankCoreApi`
-- Open project directory `cd BankCoreApi`
-- Copy database scripts from [_Database](_Database) folder to SQL Server
-- Change **__DefaultConnection__** from [appsettings.json](appsettings.json) file
-- Import Postman Collections from [_Api_Collections](_Api_Collections)
-- Install Packages: `dotnet restore`
-- Run Application: `dotnet run`
+## Endpoints
 
-## Enpoints
-1. Products
- - Commands
-    - Create Products
+### Products
+
+#### Commands
+
+- **Create Product**
     ```http
     POST /api/ProductsCommand
     ```
-    - Update Products
+- **Update Product**
     ```http
     PUT /api/ProductsCommand
     ```
-    - Delete Products
+- **Delete Product**
     ```http
     DELETE /api/ProductsCommand
     ```
 
- - Queries
-    - Get All
+#### Queries
+
+- **Get All Products**
     ```http
     GET /api/ProductsQuery?pageIndex=0&pageSize=10
     ```
-    - Get By Id
+- **Get Product By ID**
     ```http
-    GET /api/ProductsCommand/by-id?id=1
+    GET /api/ProductsQuery/by-id?id=1
     ```
-     - Get By Unique Id
+- **Get Product By Unique ID**
     ```http
-    GET /api/ProductsCommand/by-uuid?uniqueId=237e9877-e79b-12d4-a765-321741963000
+    GET /api/ProductsQuery/by-uuid?uniqueId=237e9877-e79b-12d4-a765-321741963000
     ```
