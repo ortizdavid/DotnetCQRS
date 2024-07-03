@@ -1,4 +1,4 @@
-namespace AspNetCoreRestApi.Helpers
+namespace DotnetCQRS.Helpers
 {
     public class CapacityUnit
     {

@@ -36,7 +36,7 @@ namespace DotnetCQRS.Controllers
             return Content(htmlContent, "text/html", Encoding.UTF8);
         }
 
-        [HttpGet("download-collections")]
+        [HttpGet("download-collection")]
         public IActionResult DownloadCollections()
         {
             var fileName = "postman.postman_collection.json";
@@ -47,7 +47,6 @@ namespace DotnetCQRS.Controllers
             {
                 return NotFound("File not found"); // Handle file not found scenario
             }
-
             return new FileContentResult(System.IO.File.ReadAllBytes(filePath), "application/json")
             {
                 FileDownloadName = fileName

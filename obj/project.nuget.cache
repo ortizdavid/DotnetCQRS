@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "utk16TRxYv4SpnYZviwDnUr0/rIyuNrC+sPB+R69bbK0Kf9nw4XYyO5aMHygq9C+wJbomqsWvHkaxa1ITtsBzw==",
+  "dgSpecHash": "ZdLRREA8JDmHbkohtCaPIZFwsdIaJgi/ARAbpgxnxgIrVTsQCM5LJ2v/NnMqKFwR31GSDiaQVlnK5YouqfbchA==",
   "success": true,
   "projectFilePath": "C:\\Users\\ortiz\\projectos\\projectos-dotnet\\DotnetCQRS\\DotnetCQRS.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\ortiz\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\ortiz\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\ortiz\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
+    "C:\\Users\\ortiz\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.13\\microsoft.aspnetcore.authentication.jwtbearer.6.0.13.nupkg.sha512",
     "C:\\Users\\ortiz\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\ortiz\\.nuget\\packages\\microsoft.data.sqlclient\\5.1.5\\microsoft.data.sqlclient.5.1.5.nupkg.sha512",
     "C:\\Users\\ortiz\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\5.1.1\\microsoft.data.sqlclient.sni.runtime.5.1.1.nupkg.sha512",

@@ -6,7 +6,7 @@ namespace DotnetCQRS.Models
         public Guid UniqueId { get; }
         public string? ProductName { get; }
         public string? Code { get; }
-        public double UnitPrice { get; }
+        public decimal UnitPrice { get; }
         public string? Description { get; }
         public DateTime CreatedAt { get; }
         public DateTime UpdatedAt { get; }
