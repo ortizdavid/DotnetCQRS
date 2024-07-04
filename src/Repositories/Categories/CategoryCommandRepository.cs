@@ -1,11 +1,9 @@
-
 using DotnetCQRS.Models;
 
 namespace DotnetCQRS.Repositories.Categories
 {
     public class CategoryCommandRepository : ICommandRepository<Category>
     {
-
         private readonly AppDbContext _context;
 
         public CategoryCommandRepository(AppDbContext context)

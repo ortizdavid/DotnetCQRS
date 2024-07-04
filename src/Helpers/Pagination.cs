@@ -8,13 +8,9 @@ namespace DotnetCQRS.Helpers
     public class Pagination<T>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public IEnumerable<T>? Items { get; private set; }
-        public int PageIndex { get; private set; }
-        public int TotalPages { get; private set; }
-        public int TotalItems { get; private set; }
-        public string? NextPageUrl { get; private set; }
-        public string? PreviousPageUrl { get; private set; }
-
+        public IEnumerable<T> Items { get; private set; }
+        public PaginationMetadata Metadata { get; set; }
+        
         public Pagination(IEnumerable<T> items, int count, int pageIndex, int pageSize, IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
@@ -28,23 +24,28 @@ namespace DotnetCQRS.Helpers
                 throw new ArgumentException("Invalid pageSize: must be >= 1.");
             }
             Items = items;
-            TotalItems = count;
-            PageIndex = pageIndex;
-            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            Metadata = new PaginationMetadata
+            {
+                PageIndex = pageIndex,
+                TotalItems = count,
+                TotalPages = (int)Math.Ceiling(count / (double)pageSize)
+            };
             CalculateUrls(pageIndex, pageSize);
         }
 
         private void CalculateUrls(int pageIndex, int pageSize)
         {
             var httpContext = _httpContextAccessor?.HttpContext;
-            if (pageIndex < TotalPages)
+            Metadata.FirstPageUrl = GetPageUrl(httpContext, pageSize, 0);
+            if (pageIndex < Metadata.TotalPages)
             {
-                NextPageUrl = GetPageUrl(httpContext, pageSize, pageIndex + 1);
+                Metadata.NextPageUrl = GetPageUrl(httpContext, pageSize, pageIndex + 1);
             }
-            if (pageIndex > 1)
+            if (pageIndex > 0)
             {
-                PreviousPageUrl = GetPageUrl(httpContext, pageSize, pageIndex - 1);
+                Metadata.PreviousPageUrl = GetPageUrl(httpContext, pageSize, pageIndex - 1);
             }
+            Metadata.LastPageUrl = GetPageUrl(httpContext, pageSize, Metadata.TotalPages);
         }
 
         private string GetPageUrl(HttpContext? httpContext, int pageSize, int pageNumber)
@@ -56,13 +57,23 @@ namespace DotnetCQRS.Helpers
 
         public bool HasPreviousPage()
         {
-            return PageIndex > 1;
+            return Metadata.PageIndex > 1;
         }
 
         public bool HasNextPage()
         {
-            return PageIndex < TotalPages;
+            return Metadata.PageIndex < Metadata.TotalPages;
         }
-       
+    }
+
+    public class PaginationMetadata
+    {
+        public int PageIndex { get; set; }
+        public int TotalPages { get; set; }
+        public int TotalItems { get; set; }
+        public string? FirstPageUrl { get; set; }
+        public string? LastPageUrl { get; set; }
+        public string? PreviousPageUrl { get; set; }
+        public string? NextPageUrl { get; set; }
     }
 }

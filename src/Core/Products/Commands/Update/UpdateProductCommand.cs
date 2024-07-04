@@ -7,15 +7,12 @@ namespace DotnetCQRS.Core.Products.Commands
     public class UpdateProductCommand 
     {
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage="ProductId must be a positive integer.")]
         public int ProductId { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage="CategoryId must be a positive integer.")]
         public int CategoryId { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage="SupplierId must be a positive integer.")]
         public int SupplierId { get; set; }
 
         [Required]

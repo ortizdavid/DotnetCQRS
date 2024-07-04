@@ -28,12 +28,12 @@ namespace DotnetCQRS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(CreateProductCommand command)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
         {
             try
             {
                 await _createHandler.Handle(command);
-                var message = $"Product {command.ProductName} created successfully";
+                var message = $"Product '{command.ProductName}' created successfully";
                 _logger.LogInformation(message);
                 return StatusCode(201, message);
             }
@@ -53,7 +53,7 @@ namespace DotnetCQRS.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateProduct(UpdateProductCommand command)
+        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductCommand command)
         {
             try
             {
@@ -66,9 +66,9 @@ namespace DotnetCQRS.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (ConflictException ex)
+            catch (NotFoundException ex)
             {
-                return Conflict(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (System.Exception ex)
             {
@@ -78,7 +78,7 @@ namespace DotnetCQRS.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteProduct(DeleteProductCommand command)
+        public async Task<IActionResult> DeleteProduct([FromQuery] DeleteProductCommand command)
         {
             try
             {
@@ -91,9 +91,9 @@ namespace DotnetCQRS.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (ConflictException ex)
+            catch (NotFoundException ex)
             {
-                return Conflict(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (System.Exception ex)
             {

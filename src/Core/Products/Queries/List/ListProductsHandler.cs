@@ -6,7 +6,7 @@ using DotnetCQRS.Repositories.Products;
 
 namespace DotnetCQRS.Core.Products.Queries
 {
-    public class ListProductsHandler : IQueryManyHandler<Product, ListProductsQuery>
+    public class ListProductsHandler : IQueryManyHandler<ProductData, ListProductsQuery>
     {
         private readonly ProductQueryRepository _repository;
         private readonly IHttpContextAccessor _httpContext;
@@ -17,7 +17,7 @@ namespace DotnetCQRS.Core.Products.Queries
             _httpContext = httpContext;
         }
         
-        public async Task<Pagination<Product>> Handle(ListProductsQuery query)
+        public async Task<Pagination<ProductData>> Handle(ListProductsQuery query)
         {
             if (query is null)
             {
@@ -28,8 +28,8 @@ namespace DotnetCQRS.Core.Products.Queries
             {
                 throw new NotFoundException("No products found");
             }
-            var products = await _repository.GetAllAsync(query.PageSize, query.PageIndex);
-            var pagination = new Pagination<Product>(products, count, query.PageIndex, query.PageSize, _httpContext);
+            var products = await _repository.GetAllDataAsync(query.PageSize, query.PageIndex);
+            var pagination = new Pagination<ProductData>(products, count, query.PageIndex, query.PageSize, _httpContext);
             return pagination;
         }
     }

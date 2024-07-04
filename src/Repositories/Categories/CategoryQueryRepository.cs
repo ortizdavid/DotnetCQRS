@@ -1,33 +1,50 @@
-
+using System.Data;
+using Dapper;
 using DotnetCQRS.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotnetCQRS.Repositories.Categories
 {
     public class CategoryQueryRepository : IQueryRepository<Category>
     {
-        public Task<int> CountAsync()
+        private readonly AppDbContext _context;
+        private IDbConnection _dapper;
+
+        public CategoryQueryRepository(AppDbContext context, IDbConnection dapper)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _dapper = dapper;
         }
 
-        public Task<bool> ExistsRecordAsync(string? field, string? value)
+        public async Task<int> CountAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Categories.CountAsync();
         }
 
-        public Task<IEnumerable<Category>> GetAllAsync(int limit, int offset)
+        public async Task<bool> ExistsRecordAsync(string? field, string? value)
         {
-            throw new NotImplementedException();
+            var sql = $"SELECT COUNT(*) FROM Categories WHERE {field} = @Value";
+            var count = await _dapper.ExecuteScalarAsync<int>(sql, new {Value = value});
+            return count > 0;
         }
 
-        public Task<Category?> GetByIdAsync(int id)
+        public async Task<IEnumerable<Category>> GetAllAsync(int limit, int offset)
         {
-            throw new NotImplementedException();
+            return await _context.Categories
+                .Skip(offset)
+                .Take(limit)
+                .ToListAsync();
         }
 
-        public Task<Category?> GetByUniqueIdAsync(Guid uniqueId)
+        public async Task<Category?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Categories.FindAsync(id);
+        }
+
+        public async Task<Category?> GetByUniqueIdAsync(Guid uniqueId)
+        {
+            return await _context.Categories
+                .FirstOrDefaultAsync(c => c.UniqueId == uniqueId);
         }
     }
 }

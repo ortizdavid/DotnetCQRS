@@ -23,12 +23,12 @@ namespace DotnetCQRS.Core.Categories.Commands
                 {
                     throw new BadRequestException("Delete command cannot be null");
                 }
-                var product = await _queryRepo.GetByIdAsync(command.CategoryId);
-                if (product is null)
+                var category = await _queryRepo.GetByIdAsync(command.CategoryId);
+                if (category is null)
                 {
                     throw new NotFoundException("Category not found");
                 }
-                await _commandRepo.DeleteAsync(product);
+                await _commandRepo.DeleteAsync(category);
             }
             catch (System.Exception)
             {

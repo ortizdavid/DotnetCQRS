@@ -25,14 +25,15 @@ namespace DotnetCQRS.Core.Categories.Commands
                 {
                     throw new BadRequestException("Update command cannot be null");
                 }
-                var product = await _queryRepo.GetByIdAsync(command.CategoryId);
-                if (product is  null)
+                var category = await _queryRepo.GetByIdAsync(command.CategoryId);
+                if (category is  null)
                 {
                     throw new NotFoundException($"Category with id '{command.CategoryId}' does not exists");
                 }
-                product.CategoryName = command.CategoryName;
-                product.Description = command.Description;
-                await _commandRepo.UpdateAsync(product);
+                category.CategoryName = command.CategoryName;
+                category.Description = command.Description;
+                category.UpdatedAt = DateTime.UtcNow;
+                await _commandRepo.UpdateAsync(category);
             }
             catch (System.Exception)
             {

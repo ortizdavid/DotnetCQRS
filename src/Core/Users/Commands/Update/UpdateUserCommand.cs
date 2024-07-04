@@ -9,6 +9,5 @@ namespace DotnetCQRS.Core.Users.Commands
 
         [Required]
         public int UserRole { get; set; }
-
     }
 }

@@ -1,17 +1,20 @@
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using DotnetCQRS.Models;
-using DotnetCQRS.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using Dapper;
 
 namespace DotnetCQRS.Repositories.Suppliers
 {
     public class SupplierQueryRepository : IQueryRepository<Supplier>
     {
         private readonly AppDbContext _context;
+        private readonly IDbConnection _dapper;
 
-        public SupplierQueryRepository(AppDbContext context)
+        public SupplierQueryRepository(AppDbContext context, IDbConnection dapper)
         {
             _context = context;
+            _dapper = dapper;
         }
 
         public async Task<int> CountAsync()
@@ -22,20 +25,9 @@ namespace DotnetCQRS.Repositories.Suppliers
 
         public async Task<bool> ExistsRecordAsync(string? field, string? value)
         {
-            if (string.IsNullOrWhiteSpace(field) || string.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException("Field and value must have a value", nameof(field) ?? nameof(value));
-            }
-            var validFields = new HashSet<string>{"IdentificationNumber", "PrimaryPhone", "SecondaryPhone", "Email"};
-            if (!validFields.Contains(field))
-            {
-                throw new ArgumentException("Invalid field", nameof(field));
-            }
-            var fieldParam = new SqlParameter("Field", field);
-            var ValueParam = new SqlParameter("Value", value);
-            return await _context.Suppliers
-                .FromSqlRaw($"SELECT 1 FROM Suppliers WHERE @Field = @Value", fieldParam, ValueParam)
-                .AnyAsync();
+            var sql = $"SELECT COUNT(*) FROM Suppliers WHERE {field} = @Value";
+            var count = await _dapper.ExecuteScalarAsync<int>(sql, new {Value = value});
+            return count > 0;
         }
 
         public async Task<IEnumerable<Supplier>> GetAllAsync(int limit, int offset)

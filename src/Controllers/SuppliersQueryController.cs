@@ -13,8 +13,10 @@ namespace DotnetCQRS.Controllers
         private readonly GetSupplierByIdHandler  _getById;
         private readonly GetSupplierByUniqueIdHandler  _getByUniqueId;
 
-        public SuppliersQueryController(IConfiguration configuration, ListSuppliersHandler list, 
-            GetSupplierByIdHandler getById, GetSupplierByUniqueIdHandler getByUniqueId)
+        public SuppliersQueryController(IConfiguration configuration, 
+            ListSuppliersHandler list, 
+            GetSupplierByIdHandler getById, 
+            GetSupplierByUniqueIdHandler getByUniqueId)
         {
             _configuration = configuration;
             _list = list;

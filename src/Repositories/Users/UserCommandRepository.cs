@@ -1,6 +1,5 @@
 using DotnetCQRS.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 
 namespace DotnetCQRS.Repositories.Users
 {
@@ -66,9 +65,8 @@ namespace DotnetCQRS.Repositories.Users
             }
             catch (System.Exception)
             {
-                
                 throw;
-            };
+            }
         }
     }
 }

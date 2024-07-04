@@ -61,7 +61,6 @@ namespace DotnetCQRS.Repositories.Products
             {
                 _context.Products.Update(model);
                 await _context.SaveChangesAsync();
-                throw new NotImplementedException();
             }
             catch (System.Exception)
             {

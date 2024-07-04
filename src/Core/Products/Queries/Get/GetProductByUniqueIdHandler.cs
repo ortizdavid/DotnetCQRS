@@ -5,7 +5,7 @@ using DotnetCQRS.Repositories.Products;
 
 namespace DotnetCQRS.Core.Products.Queries
 {
-    public class GetProductByUniqueIdHandler : IQueryOneHandler<Product, GetProductByUniqueIdQuery>
+    public class GetProductByUniqueIdHandler : IQueryOneHandler<ProductData, GetProductByUniqueIdQuery>
     {
         private readonly ProductQueryRepository _repository;
         
@@ -14,13 +14,13 @@ namespace DotnetCQRS.Core.Products.Queries
             _repository = repository;
         }
 
-        public async Task<Product> Handle(GetProductByUniqueIdQuery query)
+        public async Task<ProductData> Handle(GetProductByUniqueIdQuery query)
         {
             if (query is null)
             {
                 throw new BadRequestException("Product UniqueId cannot be null");
             }
-            var product = await _repository.GetByUniqueIdAsync(query.UniqueId);
+            var product = await _repository.GetDataByUniqueIdAsync(query.UniqueId);
             if (product is null)
             {
                 throw new NotFoundException("Product not found");

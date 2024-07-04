@@ -28,12 +28,12 @@ namespace DotnetCQRS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSupplier(CreateSupplierCommand command)
+        public async Task<IActionResult> CreateSupplier([FromBody] CreateSupplierCommand command)
         {
             try
             {
                 await _createHandler.Handle(command);
-                var message = $"Supplier {command.SupplierName} created successfully";
+                var message = $"Supplier '{command.SupplierName}' created successfully";
                 _logger.LogInformation(message);
                 return StatusCode(201, message);
             }
@@ -53,7 +53,7 @@ namespace DotnetCQRS.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateSupplier(UpdateSupplierCommand command)
+        public async Task<IActionResult> UpdateSupplier([FromBody] UpdateSupplierCommand command)
         {
             try
             {
@@ -66,9 +66,9 @@ namespace DotnetCQRS.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (ConflictException ex)
+            catch (NotFoundException ex)
             {
-                return Conflict(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (System.Exception ex)
             {
@@ -78,22 +78,22 @@ namespace DotnetCQRS.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteSupplier(DeleteSupplierCommand command)
+        public async Task<IActionResult> DeleteSupplier([FromQuery] DeleteSupplierCommand command)
         {
             try
             {
                 await _deleteHandler.Handle(command);
                 var message = $"Supplier '{command.SupplierId}' deleted";
                 _logger.LogInformation(message);
-                return Ok(message);
+                return NoContent();
             }
             catch (BadRequestException ex)
             {
                 return BadRequest(ex.Message);
             }
-            catch (ConflictException ex)
+            catch (NotFoundException ex)
             {
-                return Conflict(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (System.Exception ex)
             {

@@ -1,5 +1,4 @@
 using DotnetCQRS.Models;
-using DotnetCQRS.Repositories;
 
 namespace DotnetCQRS.Repositories.Suppliers
 {

@@ -1,16 +1,20 @@
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using DotnetCQRS.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using Dapper;
 
 namespace DotnetCQRS.Repositories.Products
 {
     public class ProductQueryRepository : IQueryRepository<Product>
     {
         private readonly AppDbContext _context;
+        private IDbConnection _dapper;
 
-        public ProductQueryRepository(AppDbContext context)
+        public ProductQueryRepository(AppDbContext context, IDbConnection dapper)
         {
             _context = context;
+            _dapper = dapper;
         }
 
         public async Task<int> CountAsync()
@@ -20,20 +24,9 @@ namespace DotnetCQRS.Repositories.Products
 
         public async Task<bool> ExistsRecordAsync(string? field, string? value)
         {
-            if (string.IsNullOrWhiteSpace(field) || string.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException("Field and value must have value", nameof(field) ?? nameof(value));
-            }
-            var validFields = new HashSet<string>{"Code"};
-            if (!validFields.Contains(field))
-            {
-                throw new ArgumentException("Invalid field", nameof(field));
-            }
-            var fieldParam = new SqlParameter("Field", field);
-            var valueParam = new SqlParameter("Value", value);
-            return await _context.Products
-                .FromSqlRaw($"SELECT 1 FROM Products @Field = @Value", fieldParam, valueParam)
-                .AnyAsync();
+            var sql = $"SELECT COUNT(*) FROM Products WHERE {field} = @Value";
+            var count = await _dapper.ExecuteScalarAsync<int>(sql, new {Value = value});
+            return count > 0;
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync(int limit, int offset)
@@ -53,6 +46,25 @@ namespace DotnetCQRS.Repositories.Products
         {
             return await _context.Products
                 .FirstOrDefaultAsync(p => p.UniqueId == uniqueId);
+        }
+
+        public async Task<IEnumerable<ProductData>> GetAllDataAsync(int limit, int offset)
+        {
+            var sql = "SELECT * FROM ViewProductData ORDER BY CreatedAt DESC " +
+                    $"OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY;";
+            return  await _dapper.QueryAsync<ProductData>(sql);
+        }
+
+        public async Task<ProductData> GetDataByIdAsync(int id)
+        {
+            var sql = "SELECT * FROM ViewProductData WHERE ProductId = @Id";
+            return await _dapper.QueryFirstAsync<ProductData>(sql, new {Id = id});
+        }
+
+        public async Task<ProductData> GetDataByUniqueIdAsync(Guid uniqueId)
+        {
+            var sql = "SELECT * FROM ViewProductData WHERE UniqueId = @UniqueId";
+            return await _dapper.QueryFirstAsync<ProductData>(sql, new {UniqueId = uniqueId});
         }
     }
 }

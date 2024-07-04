@@ -1,5 +1,6 @@
 using DotnetCQRS.Core.Users.Commands;
 using DotnetCQRS.Exceptions;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotnetCQRS.Controllers
@@ -28,12 +29,12 @@ namespace DotnetCQRS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(CreateUserCommand command)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
         {
             try
             {
                 await _createHandler.Handle(command);
-                var message = $"User {command.UserName} created successfully";
+                var message = $"User '{command.UserName}' created successfully";
                 _logger.LogInformation(message);
                 return StatusCode(201, message);
             }
@@ -53,7 +54,7 @@ namespace DotnetCQRS.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(UpdateUserCommand command)
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommand command)
         {
             try
             {
@@ -66,9 +67,9 @@ namespace DotnetCQRS.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (ConflictException ex)
+            catch (NotFoundException ex)
             {
-                return Conflict(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (System.Exception ex)
             {
@@ -78,22 +79,22 @@ namespace DotnetCQRS.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteUser(DeleteUserCommand command)
+        public async Task<IActionResult> DeleteUser([FromQuery] DeleteUserCommand command)
         {
             try
             {
                 await _deleteHandler.Handle(command);
                 var message = $"User '{command.UserId}' deleted";
                 _logger.LogInformation(message);
-                return Ok(message);
+                return NoContent();
             }
             catch (BadRequestException ex)
             {
                 return BadRequest(ex.Message);
             }
-            catch (ConflictException ex)
+            catch (NotFoundException ex)
             {
-                return Conflict(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (System.Exception ex)
             {

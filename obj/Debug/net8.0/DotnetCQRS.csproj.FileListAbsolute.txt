@@ -76,10 +76,4 @@ C:\Users\ortiz\projectos\projectos-dotnet\DotnetCQRS\obj\Debug\net8.0\DotnetCQRS
 C:\Users\ortiz\projectos\projectos-dotnet\DotnetCQRS\bin\Debug\net8.0\Tests\obj\project.assets.json
 C:\Users\ortiz\projectos\projectos-dotnet\DotnetCQRS\bin\Debug\net8.0\Tests\obj\Tests.csproj.nuget.dgspec.json
 C:\Users\ortiz\projectos\projectos-dotnet\DotnetCQRS\bin\Debug\net8.0\BCrypt.Net-Next.dll
-C:\Users\ortiz\projectos\projectos-dotnet\DotnetCQRS\bin\Debug\net8.0\System.Data.SqlClient.dll
-C:\Users\ortiz\projectos\projectos-dotnet\DotnetCQRS\bin\Debug\net8.0\runtimes\win-arm64\native\sni.dll
-C:\Users\ortiz\projectos\projectos-dotnet\DotnetCQRS\bin\Debug\net8.0\runtimes\win-x64\native\sni.dll
-C:\Users\ortiz\projectos\projectos-dotnet\DotnetCQRS\bin\Debug\net8.0\runtimes\win-x86\native\sni.dll
-C:\Users\ortiz\projectos\projectos-dotnet\DotnetCQRS\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\ortiz\projectos\projectos-dotnet\DotnetCQRS\bin\Debug\net8.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\ortiz\projectos\projectos-dotnet\DotnetCQRS\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

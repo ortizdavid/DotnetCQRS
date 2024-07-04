@@ -34,6 +34,7 @@ namespace DotnetCQRS.Core.Products.Commands
                 product.ProductName = command.ProductName;
                 product.Description = command.Description;
                 product.UnitPrice = command.UnitPrice;
+                product.UpdatedAt = DateTime.UtcNow;
                 await _commandRepo.UpdateAsync(product);
             }
             catch (System.Exception)

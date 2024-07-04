@@ -33,6 +33,9 @@ namespace DotnetCQRS.Core.Categories.Commands
                 {
                     CategoryName = command.CategoryName,
                     Description = command.Description,
+                    UniqueId = Encryption.GenerateUUID(),
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
                 };
                 await _commandRepo.CreateAsync(category);
             }

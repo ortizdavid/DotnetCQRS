@@ -1,11 +1,8 @@
-
 using System.Data;
-using System.Data.SqlClient;
-using DotnetCQRS.Core.Products.Queries;
 using DotnetCQRS.Extensions;
 using DotnetCQRS.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
 internal class Program
 {

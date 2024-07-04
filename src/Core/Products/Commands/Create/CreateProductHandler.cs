@@ -37,6 +37,9 @@ namespace DotnetCQRS.Core.Products.Commands
                     Code = command.Code,
                     UnitPrice = command.UnitPrice,
                     Description = command.Description,
+                    UniqueId = Encryption.GenerateUUID(),
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
                 };
                 await _commandRepo.CreateAsync(product);
             }

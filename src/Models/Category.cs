@@ -16,12 +16,12 @@ namespace DotnetCQRS.Models
         public string? Description { get; set; }
 
         [Required]
-        public Guid UniqueId { get; set; } = Encryption.GenerateUUID();
+        public Guid UniqueId { get; set; }
         
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; }
         
         [Required]
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; }
     }
 }

@@ -1,16 +1,19 @@
-using System.Data.SqlClient;
+using Dapper;
 using DotnetCQRS.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace DotnetCQRS.Repositories.Users
 {
     public class UserQueryRepository : IQueryRepository<User>
     {
         private readonly AppDbContext _context;
+        private IDbConnection _dapper;
 
-        public UserQueryRepository(AppDbContext context)
+        public UserQueryRepository(AppDbContext context, IDbConnection dapper)
         {
             _context = context;
+            _dapper = dapper;
         }
 
         public async Task<int> CountAsync()
@@ -20,20 +23,9 @@ namespace DotnetCQRS.Repositories.Users
 
         public async Task<bool> ExistsRecordAsync(string? field, string? value)
         {
-            if (string.IsNullOrWhiteSpace(field) || string.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException("Field and value must have a value", nameof(field) ?? nameof(value));
-            }
-            var validFields = new HashSet<string>{"UserName"};
-            if (!validFields.Contains(field))
-            {
-                throw new ArgumentException("Invalid field", nameof(field));
-            }
-            var fieldParam = new SqlParameter("Field", field);
-            var ValueParam = new SqlParameter("Value", value);
-            return await _context.Users
-                .FromSqlRaw($"SELECT 1 FROM Users WHERE @Field = @Value", fieldParam, ValueParam)
-                .AnyAsync();
+            var sql = $"SELECT COUNT(*) FROM Users WHERE {field} = @Value";
+            var count = await _dapper.ExecuteScalarAsync<int>(sql, new {Value = value});
+            return count > 0;
         }
 
         public async Task<IEnumerable<User>> GetAllAsync(int limit, int offset)
@@ -61,6 +53,23 @@ namespace DotnetCQRS.Repositories.Users
                 .FirstOrDefaultAsync(u => u.UserName == userName);
         }
 
+        public async Task<IEnumerable<UserData>> GetAllDataAsync(int limit, int offset)
+        {
+            var sql = "SELECT * FROM ViewUserData ORDER BY CreatedAt DESC " +
+                    $"OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY;";
+            return  await _dapper.QueryAsync<UserData>(sql);
+        }
 
+        public async Task<UserData> GetDataByIdAsync(int id)
+        {
+            var sql = "SELECT * FROM ViewUserData WHERE UserId = @Id";
+            return await _dapper.QueryFirstAsync<UserData>(sql, new {Id = id});
+        }
+
+        public async Task<UserData> GetDataByUniqueIdAsync(Guid uniqueId)
+        {
+            var sql = "SELECT * FROM ViewUserData WHERE UniqueId = @UniqueId";
+            return await _dapper.QueryFirstAsync<UserData>(sql, new {UniqueId = uniqueId});
+        }
     }
 }
