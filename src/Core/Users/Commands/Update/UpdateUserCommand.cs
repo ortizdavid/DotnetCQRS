@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using DotnetCQRS.Models;
 
 namespace DotnetCQRS.Core.Users.Commands
 {
@@ -8,6 +9,6 @@ namespace DotnetCQRS.Core.Users.Commands
         public int UserId { get; set; }
 
         [Required]
-        public int UserRole { get; set; }
+        public UserRole UserRole { get; set; }
     }
 }

@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using DotnetCQRS.Models;
 
 namespace DotnetCQRS.Core.Users.Commands
 {
     public class CreateUserCommand
     {
         [Required]
-        public int UserRole { get; set; }
+        public UserRole UserRole { get; set; }
 
         [Required]
         [StringLength(150, MinimumLength = 3, ErrorMessage = "UserName must be between 3 and 150 characters.")]

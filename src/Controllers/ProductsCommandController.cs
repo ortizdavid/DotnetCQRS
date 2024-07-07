@@ -85,7 +85,7 @@ namespace DotnetCQRS.Controllers
                 await _deleteHandler.Handle(command);
                 var message = $"Product '{command.ProductId}' deleted";
                 _logger.LogInformation(message);
-                return Ok(message);
+                return NoContent();
             }
             catch (BadRequestException ex)
             {
