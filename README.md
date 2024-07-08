@@ -2,6 +2,9 @@
 
 A project implementing the CQRS pattern using .NET.
 
+## Architecture
+![CQRS Pattern](_Docs/cqrs-architecture.png)
+
 ## Tools
 - ASP.NET Core
 - C#
@@ -63,12 +66,12 @@ A project implementing the CQRS pattern using .NET.
     ```
     ```json
     {
-        "productId": 0,
-        "categoryId": 0,
-        "supplierId": 0,
+        "productId": 1,
+        "categoryId": 1,
+        "supplierId": 2,
         "productName": "string",
         "code": "string",
-        "unitPrice": 0.01,
+        "unitPrice": 80.01,
         "description": "string"
     }
     ```

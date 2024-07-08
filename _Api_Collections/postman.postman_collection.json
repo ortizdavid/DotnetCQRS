@@ -713,7 +713,7 @@
 					"name": "Commands",
 					"item": [
 						{
-							"name": "Create Category",
+							"name": "Create User",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -739,7 +739,7 @@
 							"response": []
 						},
 						{
-							"name": "Update Category",
+							"name": "Update User",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -765,7 +765,7 @@
 							"response": []
 						},
 						{
-							"name": "Delete Category",
+							"name": "Delete User",
 							"request": {
 								"method": "DELETE",
 								"header": [],

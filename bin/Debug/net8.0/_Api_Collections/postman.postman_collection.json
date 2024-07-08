@@ -638,7 +638,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{DOTNET_CQRS}}/UsersQuery?pageIndex=0&pageSize=2",
+									"raw": "{{DOTNET_CQRS}}/UsersQuery?pageIndex=0&pageSize=1",
 									"host": [
 										"{{DOTNET_CQRS}}"
 									],
@@ -652,7 +652,7 @@
 										},
 										{
 											"key": "pageSize",
-											"value": "2"
+											"value": "1"
 										}
 									]
 								}
@@ -665,7 +665,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{DOTNET_CQRS}}/UsersQuery/by-id?categoryId=1",
+									"raw": "{{DOTNET_CQRS}}/UsersQuery/by-id?userId=1",
 									"host": [
 										"{{DOTNET_CQRS}}"
 									],
@@ -675,7 +675,7 @@
 									],
 									"query": [
 										{
-											"key": "categoryId",
+											"key": "userId",
 											"value": "1"
 										}
 									]
@@ -689,7 +689,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{DOTNET_CQRS}}/UsersQuery/by-uuid?uniqueId=dcff6ced-f4b1-4bb3-9dce-6dc93e8a3201",
+									"raw": "{{DOTNET_CQRS}}/UsersQuery/by-uuid?uniqueId=9fb5502d-d872-4c22-8661-bc3c98cacb9e",
 									"host": [
 										"{{DOTNET_CQRS}}"
 									],
@@ -700,7 +700,7 @@
 									"query": [
 										{
 											"key": "uniqueId",
-											"value": "dcff6ced-f4b1-4bb3-9dce-6dc93e8a3201"
+											"value": "9fb5502d-d872-4c22-8661-bc3c98cacb9e"
 										}
 									]
 								}
@@ -745,7 +745,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"categoryId\": 1,\r\n    \"categoryName\": \"New Category 1 Name\",\r\n    \"description\": \"New Cat1 Description\"\r\n}",
+									"raw": "{\r\n    \"userId\": 1,\r\n    \"userRole\": 2\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
