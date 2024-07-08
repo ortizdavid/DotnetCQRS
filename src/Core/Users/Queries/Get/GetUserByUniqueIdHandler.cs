@@ -1,12 +1,30 @@
+using DotnetCQRS.Exceptions;
 using DotnetCQRS.Models;
+using DotnetCQRS.Repositories.Users;
 
 namespace DotnetCQRS.Core.Users.Queries
 {
-    public class GetUserByUniqueIdHandler : IQueryOneHandler<User, GetUserByUniqueIdQuery>
+    public class GetUserByUniqueIdHandler : IQueryOneHandler<UserData, GetUserByUniqueIdQuery>
     {
-        public Task<User> Handle(GetUserByUniqueIdQuery query)
+        private readonly UserQueryRepository _repository;
+
+        public GetUserByUniqueIdHandler(UserQueryRepository repository)
         {
-            throw new NotImplementedException();
+            _repository = repository;
+        }
+
+        public async Task<UserData> Handle(GetUserByUniqueIdQuery query)
+        {
+           if (query is null)
+           {
+                throw new BadRequestException("UniqueId cannot be null");
+           }
+           var user = await _repository.GetDataByUniqueIdAsync(query.UniqueId);
+           if (user is null)
+           {
+                throw new NotFoundException("User not found");
+           }
+           return user;
         }
     }
 }
