@@ -11,6 +11,7 @@ namespace DotnetCQRS.Models
         public string? Password { get; set; }
         public string? Image { get; set; }
         public string? Token { get; set; }
+        public bool IsActive { get; set; }
         public Guid UniqueId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

@@ -47,13 +47,34 @@ A project implementing the CQRS pattern using .NET.
     ```http
     POST /api/ProductsCommand
     ```
+    ```json
+    {
+        "categoryId": 2147483647,
+        "supplierId": 2147483647,
+        "productName": "string",
+        "code": "string",
+        "unitPrice": 0.01,
+        "description": "string"
+    }
+    ```
 - **Update Product**
     ```http
     PUT /api/ProductsCommand
     ```
+    ```json
+    {
+        "productId": 0,
+        "categoryId": 0,
+        "supplierId": 0,
+        "productName": "string",
+        "code": "string",
+        "unitPrice": 0.01,
+        "description": "string"
+    }
+    ```
 - **Delete Product**
     ```http
-    DELETE /api/ProductsCommand
+    DELETE /api/ProductsCommand?productId=98
     ```
 
 #### Queries

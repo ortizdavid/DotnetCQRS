@@ -34,6 +34,7 @@ namespace DotnetCQRS.Core.Users.Commands
                     UserName = command.UserName,
                     Password = PasswordHelper.Hash(command.Password),
                     Image = "",
+                    IsActive = true,
                     Token = Encryption.GenerateRandomToken(16),
                     UniqueId = Encryption.GenerateUUID(),
                     CreatedAt = DateTime.UtcNow,

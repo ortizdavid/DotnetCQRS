@@ -25,7 +25,7 @@ namespace DotnetCQRS.Core.Suppliers.Commands
                 var supplier = await _queryRepo.GetByIdAsync(command.SupplierId);
                 if (supplier is null)
                 {
-                    throw new NotFoundException("User not found");
+                    throw new NotFoundException("Supplier not found");
                 }
                 await _commandRepo.DeleteAsync(supplier);
             }

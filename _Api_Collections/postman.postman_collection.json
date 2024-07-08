@@ -1,0 +1,804 @@
+{
+	"info": {
+		"_postman_id": "10804dee-959e-42ee-b373-6417595afe30",
+		"name": ".NET CQRS Architecture",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13144775"
+	},
+	"item": [
+		{
+			"name": "API Root",
+			"item": [
+				{
+					"name": "Index",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Download Collection",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"admin01\",\r\n    \"password\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOTNET_CQRS}}/auth/login",
+							"host": [
+								"{{DOTNET_CQRS}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{DOTNET_CQRS}}/auth/logout",
+							"host": [
+								"{{DOTNET_CQRS}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOTNET_CQRS}}/auth/refresh-token",
+							"host": [
+								"{{DOTNET_CQRS}}"
+							],
+							"path": [
+								"auth",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Queries",
+					"item": [
+						{
+							"name": "List All Products",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/ProductsQuery?pageIndex=0&pageSize=10",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"ProductsQuery"
+									],
+									"query": [
+										{
+											"key": "pageIndex",
+											"value": "0"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Product By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/ProductsQuery/by-id?productId=3",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"ProductsQuery",
+										"by-id"
+									],
+									"query": [
+										{
+											"key": "productId",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Product By UniqueId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/ProductsQuery/by-uuid?uniqueId=e122a487-6d79-4609-9943-259beef98eab",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"ProductsQuery",
+										"by-uuid"
+									],
+									"query": [
+										{
+											"key": "uniqueId",
+											"value": "e122a487-6d79-4609-9943-259beef98eab"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Commands",
+					"item": [
+						{
+							"name": "Create Product",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"categoryId\": 2,\r\n  \"supplierId\": 1,\r\n  \"productName\": \"Product 06\",\r\n  \"code\": \"PROD-06\",\r\n  \"unitPrice\": 199.99,\r\n  \"description\": \"P6 Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/ProductsCommand",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"ProductsCommand"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 2,\r\n    \"categoryId\": 2,\r\n    \"supplierId\": 1,\r\n    \"productName\": \"Product 06\",\r\n    \"code\": \"PROD-06\",\r\n    \"unitPrice\": 199.99,\r\n    \"description\": \"P6 Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/ProductsCommand",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"ProductsCommand"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/ProductsCommand?productId=1004",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"ProductsCommand"
+									],
+									"query": [
+										{
+											"key": "productId",
+											"value": "1004"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Suppliers",
+			"item": [
+				{
+					"name": "Queries",
+					"item": [
+						{
+							"name": "List All Suppliers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/SuppliersQuery?pageIndex=0&pageSize=1",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"SuppliersQuery"
+									],
+									"query": [
+										{
+											"key": "pageIndex",
+											"value": "0"
+										},
+										{
+											"key": "pageSize",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Supplier By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/SuppliersQuery/by-id?supplierId=2",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"SuppliersQuery",
+										"by-id"
+									],
+									"query": [
+										{
+											"key": "supplierId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Supplier By UniqueId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/SuppliersQuery/by-uuid?uniqueId=070390cf-c3bd-44ad-8aa3-d1835de93e31",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"SuppliersQuery",
+										"by-uuid"
+									],
+									"query": [
+										{
+											"key": "uniqueId",
+											"value": "070390cf-c3bd-44ad-8aa3-d1835de93e31"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Commands",
+					"item": [
+						{
+							"name": "Create Supplier",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"supplierName\": \"string\",\r\n    \"identificationNumber\": \"string\",\r\n    \"email\": \"user@example.com\",\r\n    \"primaryPhone\": \"92345678\",\r\n    \"secondaryPhone\": \"927376202\",\r\n    \"address\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/SuppliersCommand",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"SuppliersCommand"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Supplier",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"supplierId\": 0,\r\n    \"supplierName\": \"string\",\r\n    \"identificationNumber\": \"string\",\r\n    \"email\": \"user@example.com\",\r\n    \"primaryPhone\": \"string\",\r\n    \"secondaryPhone\": \"string\",\r\n    \"address\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/SuppliersCommand",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"SuppliersCommand"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Supplier",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/SuppliersCommand?SupplierId=1004",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"SuppliersCommand"
+									],
+									"query": [
+										{
+											"key": "SupplierId",
+											"value": "1004"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Queries",
+					"item": [
+						{
+							"name": "List All Categories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/CategoriesQuery?pageIndex=0&pageSize=2",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"CategoriesQuery"
+									],
+									"query": [
+										{
+											"key": "pageIndex",
+											"value": "0"
+										},
+										{
+											"key": "pageSize",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Category By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/CategoriesQuery/by-id?categoryId=1",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"CategoriesQuery",
+										"by-id"
+									],
+									"query": [
+										{
+											"key": "categoryId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Category By UniqueId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/CategoriesQuery/by-uuid?uniqueId=dcff6ced-f4b1-4bb3-9dce-6dc93e8a3201",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"CategoriesQuery",
+										"by-uuid"
+									],
+									"query": [
+										{
+											"key": "uniqueId",
+											"value": "dcff6ced-f4b1-4bb3-9dce-6dc93e8a3201"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Commands",
+					"item": [
+						{
+							"name": "Create Category",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoryName\": \"Category 5\",\r\n    \"description\": \"Cat5 Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/CategoriesCommand",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"CategoriesCommand"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Category",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoryId\": 1,\r\n    \"categoryName\": \"New Category 1 Name\",\r\n    \"description\": \"New Cat1 Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/CategoriesCommand",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"CategoriesCommand"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Category",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/CategoriesCommand?categoryId=3",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"CategoriesCommand"
+									],
+									"query": [
+										{
+											"key": "categoryId",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Queries",
+					"item": [
+						{
+							"name": "List All Users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/UsersQuery?pageIndex=0&pageSize=2",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"UsersQuery"
+									],
+									"query": [
+										{
+											"key": "pageIndex",
+											"value": "0"
+										},
+										{
+											"key": "pageSize",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/UsersQuery/by-id?categoryId=1",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"UsersQuery",
+										"by-id"
+									],
+									"query": [
+										{
+											"key": "categoryId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User By UniqueId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/UsersQuery/by-uuid?uniqueId=dcff6ced-f4b1-4bb3-9dce-6dc93e8a3201",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"UsersQuery",
+										"by-uuid"
+									],
+									"query": [
+										{
+											"key": "uniqueId",
+											"value": "dcff6ced-f4b1-4bb3-9dce-6dc93e8a3201"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Commands",
+					"item": [
+						{
+							"name": "Create Category",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoryName\": \"Category 5\",\r\n    \"description\": \"Cat5 Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/UsersCommand",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"UsersCommand"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Category",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoryId\": 1,\r\n    \"categoryName\": \"New Category 1 Name\",\r\n    \"description\": \"New Cat1 Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/UsersCommand",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"UsersCommand"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Category",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DOTNET_CQRS}}/UsersCommand?categoryId=3",
+									"host": [
+										"{{DOTNET_CQRS}}"
+									],
+									"path": [
+										"UsersCommand"
+									],
+									"query": [
+										{
+											"key": "categoryId",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

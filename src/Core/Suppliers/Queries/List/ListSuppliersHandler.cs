@@ -8,9 +8,9 @@ namespace DotnetCQRS.Core.Suppliers.Queries
     public class ListSuppliersHandler : IQueryManyHandler<Supplier, ListSuppliersQuery>
     {
         private readonly SupplierQueryRepository _repository;
-        private readonly HttpContextAccessor _httpContext;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public ListSuppliersHandler(SupplierQueryRepository repository, HttpContextAccessor httpContext)
+        public ListSuppliersHandler(SupplierQueryRepository repository, IHttpContextAccessor httpContext)
         {
             _repository = repository;
             _httpContext = httpContext;
