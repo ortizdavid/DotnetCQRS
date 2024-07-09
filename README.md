@@ -3,7 +3,7 @@
 A project implementing the CQRS pattern using .NET.
 
 ## Architecture
-![CQRS Pattern](_Docs/cqrs-architecture.png)
+![CQRS Pattern](_Docs/CQRS-Single-Database.png)
 
 ## Tools
 - ASP.NET Core
