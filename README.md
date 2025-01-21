@@ -26,11 +26,11 @@ A project implementing the CQRS pattern using .NET.
     ```
 2. Navigate to the project directory:
     ```sh
-    cd DotnetCQRS
+    cd DotnetCQRS/DotnetCQRS
     ```
-3. Copy the database scripts from the [_Database](_Database) folder to SQL Server.
-4. Update the **DefaultConnection** string in the [appsettings.json](appsettings.json) file with your SQL Server details.
-5. Import the Postman Collections from the [_Api_Collections](_Api_Collections) folder.
+3. Copy the database scripts from the [_Database](DotnetCQRS/_Database) folder to SQL Server.
+4. Update the **DefaultConnection** string in the [appsettings.json](DotnetCQRS/appsettings.json) file with your SQL Server details.
+5. Import the Postman Collections from the [_Api_Collections](DotnetCQRS/_Api_Collections) folder.
 6. Install the required packages:
     ```sh
     dotnet restore
@@ -52,8 +52,8 @@ A project implementing the CQRS pattern using .NET.
     ```
     ```json
     {
-        "categoryId": 2147483647,
-        "supplierId": 2147483647,
+        "categoryId": 2,
+        "supplierId": 21,
         "productName": "string",
         "code": "string",
         "unitPrice": 0.01,
