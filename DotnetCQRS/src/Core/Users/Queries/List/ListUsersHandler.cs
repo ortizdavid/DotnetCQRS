@@ -4,33 +4,32 @@ using DotnetCQRS.Helpers;
 using DotnetCQRS.Models;
 using DotnetCQRS.Repositories.Users;
 
-namespace DotnetCQRS.Core.Users.Queries
+namespace DotnetCQRS.Core.Users.Queries;
+
+public class ListUsersHandler : IQueryManyHandler<UserData, ListUsersQuery>
 {
-    public class ListUsersHandler : IQueryManyHandler<UserData, ListUsersQuery>
+    private readonly UserQueryRepository _repository;
+    private readonly IHttpContextAccessor _httpContext;
+
+    public ListUsersHandler(UserQueryRepository repository, IHttpContextAccessor httpContext)
     {
-        private readonly UserQueryRepository _repository;
-        private readonly IHttpContextAccessor _httpContext;
+        _repository = repository;
+        _httpContext = httpContext;
+    }
 
-        public ListUsersHandler(UserQueryRepository repository, IHttpContextAccessor httpContext)
+    public async Task<Pagination<UserData>> Handle(ListUsersQuery query)
+    {
+        if (query is null)
         {
-            _repository = repository;
-            _httpContext = httpContext;
+            throw new BadRequestException("PageSize and PageIndex cannot be null");
         }
-
-        public async Task<Pagination<UserData>> Handle(ListUsersQuery query)
+        var count = await _repository.CountAsync();
+        if (count == 0)
         {
-            if (query is null)
-            {
-                throw new BadRequestException("PageSize and PageIndex cannot be null");
-            }
-            var count = await _repository.CountAsync();
-            if (count == 0)
-            {
-                throw new NotFoundException("No users found");
-            }
-            var users = await _repository.GetAllDataAsync(query.PageSize, query.PageIndex);	
-            var pagination = new Pagination<UserData>(users, count, query.PageIndex, query.PageSize, _httpContext);
-            return pagination;
+            throw new NotFoundException("No users found");
         }
+        var users = await _repository.GetAllDataAsync(query.PageSize, query.PageIndex);	
+        var pagination = new Pagination<UserData>(users, count, query.PageIndex, query.PageSize, _httpContext);
+        return pagination;
     }
 }

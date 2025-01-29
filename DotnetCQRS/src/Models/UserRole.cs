@@ -1,8 +1,7 @@
-namespace DotnetCQRS.Models
+namespace DotnetCQRS.Models;
+
+public enum UserRole
 {
-    public enum UserRole
-    {
-        Administrator = 1,
-        Customer
-    }
+    Administrator = 1,
+    Customer
 }

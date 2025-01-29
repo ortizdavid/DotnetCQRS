@@ -1,7 +1,6 @@
-namespace DotnetCQRS.Core.Products.Queries
+namespace DotnetCQRS.Core.Products.Queries;
+
+public class GetProductByIdQuery
 {
-    public class GetProductByIdQuery
-    {
-        public int ProductId { get; set; }
-    }
+    public int ProductId { get; set; }
 }

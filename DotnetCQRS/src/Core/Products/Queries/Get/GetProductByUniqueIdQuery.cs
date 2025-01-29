@@ -1,7 +1,6 @@
-namespace DotnetCQRS.Core.Products.Queries
+namespace DotnetCQRS.Core.Products.Queries;
+
+public class GetProductByUniqueIdQuery
 {
-    public class GetProductByUniqueIdQuery
-    {
-        public Guid UniqueId { get; set; }
-    }
+    public Guid UniqueId { get; set; }
 }

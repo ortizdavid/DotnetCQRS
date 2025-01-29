@@ -1,10 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DotnetCQRS.Core.Categories.Queries
+namespace DotnetCQRS.Core.Categories.Queries;
+
+public class GetCategoryByUniqueIdQuery
 {
-    public class GetCategoryByUniqueIdQuery
-    {
-        [Required]
-        public Guid UniqueId { get; set; }
-    }
+    [Required]
+    public Guid UniqueId { get; set; }
 }

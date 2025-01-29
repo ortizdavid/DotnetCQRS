@@ -1,10 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DotnetCQRS.Core.Suppliers.Queries
+namespace DotnetCQRS.Core.Suppliers.Queries;
+
+public class GetSupplierByUniqueIdQuery
 {
-    public class GetSupplierByUniqueIdQuery
-    {
-        [Required]
-        public Guid UniqueId { get; set; }
-    }
+    [Required]
+    public Guid UniqueId { get; set; }
 }

@@ -1,10 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DotnetCQRS.Core.Users.Commands
+namespace DotnetCQRS.Core.Users.Commands;
+
+public class DeleteUserCommand
 {
-    public class DeleteUserCommand
-    {
-        [Required]
-        public int UserId { get; set; }
-    }
+    [Required]
+    public int UserId { get; set; }
 }

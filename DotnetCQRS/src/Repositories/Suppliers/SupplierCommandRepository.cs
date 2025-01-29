@@ -1,71 +1,70 @@
 using DotnetCQRS.Models;
 
-namespace DotnetCQRS.Repositories.Suppliers
+namespace DotnetCQRS.Repositories.Suppliers;
+
+public class SupplierCommandRepository : ICommandRepository<Supplier>
 {
-    public class SupplierCommandRepository : ICommandRepository<Supplier>
+    private readonly AppDbContext _context;
+
+    public SupplierCommandRepository(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
-        public SupplierCommandRepository(AppDbContext context)
+    public async Task CreateAsync(Supplier model)
+    {
+        try
         {
-            _context = context;
+            await _context.Suppliers.AddAsync(model);
+            await _context.SaveChangesAsync();
         }
+        catch (System.Exception)
+        {
+            throw;
+        }
+    }
 
-        public async Task CreateAsync(Supplier model)
+    public async Task CreateBatchAsync(IEnumerable<Supplier> models)
+    {
+        using (var transaction = _context.Database.BeginTransaction())
         {
             try
             {
-                await _context.Suppliers.AddAsync(model);
+                await _context.Suppliers.AddRangeAsync(models);
                 await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
             }
             catch (System.Exception)
             {
+                await transaction.RollbackAsync();
                 throw;
             }
         }
+    }
 
-        public async Task CreateBatchAsync(IEnumerable<Supplier> models)
+    public async Task DeleteAsync(Supplier model)
+    {
+        try
         {
-            using (var transaction = _context.Database.BeginTransaction())
-            {
-                try
-                {
-                    await _context.Suppliers.AddRangeAsync(models);
-                    await _context.SaveChangesAsync();
-                    await transaction.CommitAsync();
-                }
-                catch (System.Exception)
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
-            }
+            _context.Suppliers.Remove(model);
+            await _context.SaveChangesAsync();
         }
-
-        public async Task DeleteAsync(Supplier model)
+        catch (System.Exception)
         {
-            try
-            {
-                _context.Suppliers.Remove(model);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            throw;
         }
+    }
 
-        public async Task UpdateAsync(Supplier model)
+    public async Task UpdateAsync(Supplier model)
+    {
+        try
         {
-            try
-            {
-                _context.Suppliers.Update(model);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            _context.Suppliers.Update(model);
+            await _context.SaveChangesAsync();
+        }
+        catch (System.Exception)
+        {
+            throw;
         }
     }
 }

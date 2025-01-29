@@ -38,7 +38,7 @@ namespace DotnetCQRS.Controllers
             {
                 return NotFound(ex.Message);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -60,7 +60,7 @@ namespace DotnetCQRS.Controllers
             {
                 return NotFound(ex.Message);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -82,7 +82,7 @@ namespace DotnetCQRS.Controllers
             {
                 return NotFound(ex.Message);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }

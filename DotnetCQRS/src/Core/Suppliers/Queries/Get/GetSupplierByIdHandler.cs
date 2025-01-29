@@ -2,29 +2,28 @@ using DotnetCQRS.Exceptions;
 using DotnetCQRS.Models;
 using DotnetCQRS.Repositories.Suppliers;
 
-namespace DotnetCQRS.Core.Suppliers.Queries
+namespace DotnetCQRS.Core.Suppliers.Queries;
+
+public class GetSupplierByIdHandler : IQueryOneHandler<Supplier, GetSupplierByIdQuery>
 {
-    public class GetSupplierByIdHandler : IQueryOneHandler<Supplier, GetSupplierByIdQuery>
+    private readonly SupplierQueryRepository _repository;
+
+    public GetSupplierByIdHandler(SupplierQueryRepository repository)
     {
-        private readonly SupplierQueryRepository _repository;
+        _repository = repository;
+    }
 
-        public GetSupplierByIdHandler(SupplierQueryRepository repository)
+    public async Task<Supplier> Handle(GetSupplierByIdQuery query)
+    {
+        if (query is null)
         {
-            _repository = repository;
+            throw new BadRequestException("SupplierId cannot be null");
         }
-
-        public async Task<Supplier> Handle(GetSupplierByIdQuery query)
+        var supplier = await _repository.GetByIdAsync(query.SupplierId);
+        if (supplier is null)
         {
-            if (query is null)
-            {
-                throw new BadRequestException("SupplierId cannot be null");
-            }
-            var supplier = await _repository.GetByIdAsync(query.SupplierId);
-            if (supplier is null)
-            {
-                throw new NotFoundException("Supplier not found");
-            }
-            return supplier;
+            throw new NotFoundException("Supplier not found");
         }
+        return supplier;
     }
 }

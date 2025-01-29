@@ -1,71 +1,70 @@
 using DotnetCQRS.Models;
 
-namespace DotnetCQRS.Repositories.Categories
+namespace DotnetCQRS.Repositories.Categories;
+
+public class CategoryCommandRepository : ICommandRepository<Category>
 {
-    public class CategoryCommandRepository : ICommandRepository<Category>
+    private readonly AppDbContext _context;
+
+    public CategoryCommandRepository(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
-        public CategoryCommandRepository(AppDbContext context)
+    public async Task CreateAsync(Category model)
+    {
+        try
         {
-            _context = context;
+            await _context.Categories.AddAsync(model);
+            await _context.SaveChangesAsync();
         }
+        catch (System.Exception)
+        {
+            throw;
+        }
+    }
 
-        public async Task CreateAsync(Category model)
+    public async Task CreateBatchAsync(IEnumerable<Category> model)
+    {
+        using (var transaction = _context.Database.BeginTransaction())  
         {
             try
             {
-                await _context.Categories.AddAsync(model);
+                await _context.AddRangeAsync(model);
                 await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
             }
             catch (System.Exception)
             {
+                await transaction.RollbackAsync();
                 throw;
             }
         }
+    }
 
-        public async Task CreateBatchAsync(IEnumerable<Category> model)
+    public async Task DeleteAsync(Category model)
+    {
+        try
         {
-            using (var transaction = _context.Database.BeginTransaction())  
-            {
-                try
-                {
-                    await _context.AddRangeAsync(model);
-                    await _context.SaveChangesAsync();
-                    await transaction.CommitAsync();
-                }
-                catch (System.Exception)
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
-            }
+            _context.Categories.Remove(model);
+            await _context.SaveChangesAsync();
         }
-
-        public async Task DeleteAsync(Category model)
+        catch (System.Exception)
         {
-            try
-            {
-                _context.Categories.Remove(model);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            throw;
         }
+    }
 
-        public async Task UpdateAsync(Category model)
+    public async Task UpdateAsync(Category model)
+    {
+        try
         {
-            try
-            {
-                _context.Categories.Update(model);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            _context.Categories.Update(model);
+            await _context.SaveChangesAsync();
+        }
+        catch (System.Exception)
+        {
+            throw;
         }
     }
 }

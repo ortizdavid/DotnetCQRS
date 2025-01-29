@@ -1,38 +1,37 @@
 using DotnetCQRS.Exceptions;
 using DotnetCQRS.Repositories.Users;
 
-namespace DotnetCQRS.Core.Users.Commands
+namespace DotnetCQRS.Core.Users.Commands;
+
+public class DeleteUserHandler : ICommandHandler<DeleteUserCommand>
 {
-    public class DeleteUserHandler : ICommandHandler<DeleteUserCommand>
+    private readonly UserCommandRepository _commandRepo;
+    private readonly UserQueryRepository _queryRepo;
+
+    public DeleteUserHandler(UserCommandRepository commandRepo, UserQueryRepository queryRepo) 
     {
-        private readonly UserCommandRepository _commandRepo;
-        private readonly UserQueryRepository _queryRepo;
+        _commandRepo = commandRepo;
+        _queryRepo = queryRepo;
+    }
 
-        public DeleteUserHandler(UserCommandRepository commandRepo, UserQueryRepository queryRepo) 
+    public async Task Handle(DeleteUserCommand command)
+    {
+        try
         {
-            _commandRepo = commandRepo;
-            _queryRepo = queryRepo;
+            if (command is null)
+            {
+                throw new BadRequestException("UserId cannot be null");
+            }
+            var user = await _queryRepo.GetByIdAsync(command.UserId);
+            if (user is null)
+            {
+                throw new NotFoundException("User not found");
+            }
+            await _commandRepo.DeleteAsync(user);
         }
-
-        public async Task Handle(DeleteUserCommand command)
+        catch (System.Exception)
         {
-            try
-            {
-                if (command is null)
-                {
-                    throw new BadRequestException("UserId cannot be null");
-                }
-                var user = await _queryRepo.GetByIdAsync(command.UserId);
-                if (user is null)
-                {
-                    throw new NotFoundException("User not found");
-                }
-                await _commandRepo.DeleteAsync(user);
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            throw;
         }
     }
 }

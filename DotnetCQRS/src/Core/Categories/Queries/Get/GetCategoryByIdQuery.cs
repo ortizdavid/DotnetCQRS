@@ -1,10 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DotnetCQRS.Core.Categories.Queries
+namespace DotnetCQRS.Core.Categories.Queries;
+
+public class GetCategoryByIdQuery
 {
-    public class GetCategoryByIdQuery
-    {
-        [Required]
-        public int CategoryId { get; set; }
-    }
+    [Required]
+    public int CategoryId { get; set; }
 }

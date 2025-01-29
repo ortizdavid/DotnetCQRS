@@ -1,71 +1,70 @@
 using DotnetCQRS.Models;
 
-namespace DotnetCQRS.Repositories.Products
+namespace DotnetCQRS.Repositories.Products;
+
+public class ProductCommandRepository : ICommandRepository<Product>
 {
-    public class ProductCommandRepository : ICommandRepository<Product>
+    private readonly AppDbContext _context;
+
+    public ProductCommandRepository(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
-        public ProductCommandRepository(AppDbContext context)
+    public async Task CreateAsync(Product model)
+    {
+        try
         {
-            _context = context;
+            await _context.Products.AddAsync(model);
+            await _context.SaveChangesAsync();
         }
+        catch (System.Exception)
+        { 
+            throw;
+        }
+    }
 
-        public async Task CreateAsync(Product model)
+    public async Task CreateBatchAsync(IEnumerable<Product> model)
+    {
+        using (var transaction = _context.Database.BeginTransaction())
         {
             try
             {
-                await _context.Products.AddAsync(model);
+                await _context.AddRangeAsync(model);
                 await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            { 
-                throw;
-            }
-        }
-
-        public async Task CreateBatchAsync(IEnumerable<Product> model)
-        {
-            using (var transaction = _context.Database.BeginTransaction())
-            {
-                try
-                {
-                    await _context.AddRangeAsync(model);
-                    await _context.SaveChangesAsync();
-                    await transaction.CommitAsync();
-                }
-                catch (System.Exception)
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
-            }
-        }
-
-        public async Task DeleteAsync(Product model)
-        {
-            try
-            {
-                _context.Products.Remove(model);
-                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
             }
             catch (System.Exception)
             {
+                await transaction.RollbackAsync();
                 throw;
             }
         }
+    }
 
-        public async Task UpdateAsync(Product model)
+    public async Task DeleteAsync(Product model)
+    {
+        try
         {
-            try
-            {
-                _context.Products.Update(model);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            _context.Products.Remove(model);
+            await _context.SaveChangesAsync();
+        }
+        catch (System.Exception)
+        {
+            throw;
+        }
+    }
+
+    public async Task UpdateAsync(Product model)
+    {
+        try
+        {
+            _context.Products.Update(model);
+            await _context.SaveChangesAsync();
+        }
+        catch (System.Exception)
+        {
+            throw;
         }
     }
 }

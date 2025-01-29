@@ -1,11 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DotnetCQRS.Core.Users.Queries
+namespace DotnetCQRS.Core.Users.Queries;
+
+public class GetUserByIdQuery
 {
-    public class GetUserByIdQuery
-    {
-        [Required
-        ]
-        public int UserId { get; set; }
-    }
+    [Required
+    ]
+    public int UserId { get; set; }
 }

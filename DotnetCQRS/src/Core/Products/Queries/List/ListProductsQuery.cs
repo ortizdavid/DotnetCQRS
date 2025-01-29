@@ -1,13 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DotnetCQRS.Core.Products.Queries
-{
-    public class ListProductsQuery
-    {
-        [Required]
-        public int PageIndex { get; set; } = 0;
+namespace DotnetCQRS.Core.Products.Queries;
 
-        [Required]
-        public int PageSize { get; set; } = 10;
-    }
+public class ListProductsQuery
+{
+    [Required]
+    public int PageIndex { get; set; } = 0;
+
+    [Required]
+    public int PageSize { get; set; } = 10;
 }

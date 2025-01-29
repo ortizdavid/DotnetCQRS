@@ -1,10 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DotnetCQRS.Models
+namespace DotnetCQRS.Models;
+
+public class RefreshTokenRequest
 {
-    public class RefreshTokenRequest
-    {
-        [Required]
-        public string? RefreshToken { get; set; }
-    }
+    [Required]
+    public string? RefreshToken { get; set; }
 }

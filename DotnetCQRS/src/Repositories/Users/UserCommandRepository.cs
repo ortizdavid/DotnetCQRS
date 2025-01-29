@@ -1,72 +1,71 @@
 using DotnetCQRS.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DotnetCQRS.Repositories.Users
+namespace DotnetCQRS.Repositories.Users;
+
+public class UserCommandRepository : ICommandRepository<User>
 {
-    public class UserCommandRepository : ICommandRepository<User>
+    private readonly AppDbContext _context;
+
+    public UserCommandRepository(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
-        public UserCommandRepository(AppDbContext context)
+    public async Task CreateAsync(User model)
+    {
+        try
         {
-            _context = context;
+            await _context.AddAsync(model);
+            await _context.SaveChangesAsync();
         }
-
-        public async Task CreateAsync(User model)
+        catch (System.Exception)
         {
+            throw;
+        }
+    }
+
+    public async Task CreateBatchAsync(IEnumerable<User> models)
+    {
+       using (var transaction = _context.Database.BeginTransaction())
+       {
             try
             {
-                await _context.AddAsync(model);
+                await _context.Users.AddRangeAsync(models);
                 await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
             }
             catch (System.Exception)
             {
+                await transaction.RollbackAsync();
                 throw;
             }
-        }
+       }
+    }
 
-        public async Task CreateBatchAsync(IEnumerable<User> models)
+    public async Task DeleteAsync(User model)
+    {
+        try
         {
-           using (var transaction = _context.Database.BeginTransaction())
-           {
-                try
-                {
-                    await _context.Users.AddRangeAsync(models);
-                    await _context.SaveChangesAsync();
-                    await transaction.CommitAsync();
-                }
-                catch (System.Exception)
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
-           }
+            _context.Remove(model);
+            await _context.SaveChangesAsync();
         }
-
-        public async Task DeleteAsync(User model)
+        catch (System.Exception)
         {
-            try
-            {
-                _context.Remove(model);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            throw;
         }
+    }
 
-        public async Task UpdateAsync(User model)
+    public async Task UpdateAsync(User model)
+    {
+        try
         {
-            try
-            {
-                _context.Users.Update(model);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            _context.Users.Update(model);
+            await _context.SaveChangesAsync();
+        }
+        catch (System.Exception)
+        {
+            throw;
         }
     }
 }
